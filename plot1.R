@@ -1,0 +1,10 @@
+power <- read.table(file = "/Users/mymac/Desktop/household_power_consumption.txt",header = TRUE,sep = ";",na.strings = "?")
+power$Date <- as.Date(power$Date,'%d/%m/%Y')
+startdate <- as.Date("2007-02-01")
+enddate<- as.Date("2007-02-02")
+new.power <- power[which(power$Date == startdate | power$Date == enddate),]
+new.power[["Date/Time"]] <- paste(new.power$Date,' ',new.power$Time)
+new.power[["Date/Time"]] <- strptime(new.power[["Date/Time"]],format = "%Y-%m-%d %H:%M:%S")
+png(filename = "/Users/mymac/Desktop/plot1.png",width = 480, height = 480)
+plot1 <- hist(new.power$Global_active_power,xlab = "Global Active Power(kilowatts)",ylab = "Frequency",col ="red",main = "Global Active Power")
+dev.off()
